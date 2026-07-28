@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,25 @@ export default function MessageForm() {
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [captcha, setCaptcha] = useState<{ question: string; token: string }>({
+    question: "",
+    token: "",
+  });
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+
+  async function loadCaptcha() {
+    try {
+      const d = await fetch("/api/captcha").then((r) => r.json());
+      setCaptcha({ question: d.question ?? "", token: d.token ?? "" });
+      setCaptchaAnswer("");
+    } catch {
+      /* 拉取失败由后端二次校验兜底 */
+    }
+  }
+
+  useEffect(() => {
+    loadCaptcha();
+  }, []);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,7 +42,12 @@ export default function MessageForm() {
     const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ content: content.trim(), contact: contact.trim() }),
+      body: JSON.stringify({
+        content: content.trim(),
+        contact: contact.trim(),
+        captchaToken: captcha.token,
+        captchaAnswer,
+      }),
     });
     setSending(false);
     if (res.ok) {
@@ -31,7 +55,9 @@ export default function MessageForm() {
       setContent("");
       setContact("");
     } else {
-      setError("提交失败，请稍后再试");
+      const d = await res.json().catch(() => ({}));
+      setError(d.error || "提交失败，请稍后再试");
+      loadCaptcha();
     }
   }
 
@@ -60,6 +86,17 @@ export default function MessageForm() {
         value={contact}
         onChange={(e) => setContact(e.target.value)}
       />
+      <div className="space-y-1">
+        <p className="text-sm text-muted-foreground">
+          验证码：{captcha.question || "正在加载…"}
+        </p>
+        <Input
+          value={captchaAnswer}
+          onChange={(e) => setCaptchaAnswer(e.target.value)}
+          placeholder="请输入计算结果"
+          inputMode="numeric"
+        />
+      </div>
       {error && <p className="text-xs text-destructive">{error}</p>}
       <Button type="submit" disabled={sending} className="w-full">
         {sending ? "提交中…" : "提交留言"}

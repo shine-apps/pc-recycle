@@ -5,6 +5,9 @@ const secret = new TextEncoder().encode(
   process.env.AUTH_SECRET ?? "dev-secret-please-change",
 );
 
+/** 共享的 JWT 签名密钥（HMAC），供 session 与 captcha 等模块复用同一 AUTH_SECRET。 */
+export const jwtSecret = secret;
+
 export interface SessionPayload {
   sub: string;
   role: string;
