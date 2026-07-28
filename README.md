@@ -109,6 +109,43 @@ pnpm test
 
 如需用真实 Postgres，可参考 `.env.example` 中的连接串示例，并运行 `pnpm db:push` / `pnpm db:migrate:local` 初始化表结构（生产建议走 migration，而非 `db:push`）。
 
+## 使用 Docker 部署（推荐生产）
+
+仓库已提供 `Dockerfile` 与 `docker-compose.yml`，一键拉起「Next.js 应用 + PostgreSQL」。
+
+### 前置准备
+
+1. 在项目根目录创建 `.env`（不会被提交，已在 `.gitignore` 中忽略），至少设置：
+
+   ```bash
+   AUTH_SECRET=$(openssl rand -base64 32)   # 会话签名密钥，务必强随机
+   ADMIN_PASSWORD=你的强密码               # 后台管理员密码
+   ADMIN_USERNAME=admin                     # 可选，默认 admin
+   ```
+
+   也可直接复制模板后修改：`cp .env.example .env`。
+
+2. 确认已安装 Docker 与 Docker Compose v2（`docker compose` 命令可用）。
+
+### 启动
+
+```bash
+docker compose up -d
+```
+
+- 首次启动会自动：用 `drizzle-kit push` 把表结构推送到 PostgreSQL（幂等），再启动 Next.js。
+- 访问 http://localhost:3000 ；后台 /admin 。
+- 上传的图片持久化在 `uploads` 卷（`/app/public/uploads`），容器重建不丢失；数据库持久化在 `pgdata` 卷。
+
+### 停止 / 重建
+
+```bash
+docker compose down              # 停止并移除容器（数据卷保留）
+docker compose up -d --build     # 代码改动后重新构建镜像
+```
+
+> 镜像基于 `node:20-alpine` + pnpm 多阶段构建；`.dockerignore` 已排除 `node_modules`、`.next`、`public/uploads`、`.env` 等，避免把密钥或冗余产物打进镜像。
+
 ## 持续集成
 
 仓库内置 GitHub Actions（`.github/workflows/ci.yml`）：在 **push 到 `main`** 以及 **发起 Pull Request** 时自动执行 `pnpm install` → `pnpm build` → `pnpm test`。CI 使用内存版 PGlite（`DATABASE_URL=pglite://memory`），无需外部数据库即可完成构建与测试。
