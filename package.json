@@ -1,0 +1,42 @@
+{
+  "name": "pc-recycle",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate:local": "tsx src/db/migrate.ts",
+    "seed": "tsx src/db/seed.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "drizzle-orm": "latest",
+    "pg": "latest",
+    "@electric-sql/pglite": "latest",
+    "jose": "latest",
+    "bcryptjs": "latest",
+    "zod": "latest",
+    "nanoid": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.0",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/pg": "latest",
+    "@types/bcryptjs": "latest",
+    "tailwindcss": "latest",
+    "@tailwindcss/postcss": "latest",
+    "postcss": "latest",
+    "drizzle-kit": "latest",
+    "tsx": "latest",
+    "vitest": "latest",
+    "dotenv": "latest"
+  }
+}

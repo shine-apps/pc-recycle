@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+
+# next.js build output
+/.next
+/out
+
+# database (runtime data; not source)
+/.data
+
+# local env files (contain secrets / sandbox-specific config)
+/.env*.local
+
+# debug artifacts
+req_recycle.json
+
+# uploads (runtime, user-generated)
+/public/uploads
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.swp

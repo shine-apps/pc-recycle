@@ -1,0 +1,169 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db/client";
+import { products, categories, brands } from "@/db/schema";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const db = await getDb();
+  const [p] = await db
+    .select()
+    .from(products)
+    .where(eq(products.id, Number(id)))
+    .limit(1);
+  if (!p) return { title: "商品未找到 · 翔云电脑回收" };
+  return {
+    title: `${p.title} · 翔云电脑回收`,
+    description: `${p.title}，${p.condition}，售价 ¥${p.price}。本地二手电脑回收出售，老板直连，线下交易更放心。`,
+  };
+}
+
+export default async function ProductDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const db = await getDb();
+  const [p] = await db
+    .select()
+    .from(products)
+    .where(eq(products.id, Number(id)))
+    .limit(1);
+  if (!p) notFound();
+
+  const [cat] = p.categoryId
+    ? await db
+        .select()
+        .from(categories)
+        .where(eq(categories.id, p.categoryId))
+        .limit(1)
+    : [undefined];
+  const [br] = p.brandId
+    ? await db
+        .select()
+        .from(brands)
+        .where(eq(brands.id, p.brandId))
+        .limit(1)
+    : [undefined];
+
+  const sold = p.status === "sold";
+  const images = p.images?.length ? p.images : [];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.title,
+    description: `${p.title}，${p.condition}，售价 ¥${p.price}。`,
+    image: images,
+    offers: {
+      "@type": "Offer",
+      price: p.price,
+      priceCurrency: "CNY",
+      availability: sold
+        ? "https://schema.org/SoldOut"
+        : "https://schema.org/InStock",
+    },
+  };
+
+  return (
+    <section className="space-y-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <Link href="/products" className="text-sm text-gray-500">
+        ← 返回列表
+      </Link>
+
+      {images.length > 0 ? (
+        <div className="grid grid-cols-1 gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={images[0]}
+            alt={p.title}
+            className="w-full rounded-xl border border-gray-200 object-cover"
+          />
+          {images.length > 1 && (
+            <div className="grid grid-cols-4 gap-2">
+              {images.slice(1).map((u, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={u}
+                  alt=""
+                  className="h-16 w-full rounded-lg border border-gray-200 object-cover"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex h-48 items-center justify-center rounded-xl bg-gray-100 text-sm text-gray-400">
+          暂无图片
+        </div>
+      )}
+
+      <div>
+        <h1 className="text-xl font-semibold">{p.title}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+          {br && <span>{br.name}</span>}
+          {cat && <span>· {cat.name}</span>}
+          <span>· {p.condition}</span>
+          {sold ? (
+            <Badge variant="warning">已售</Badge>
+          ) : p.status === "off" ? (
+            <Badge variant="muted">已下架</Badge>
+          ) : (
+            <Badge variant="success">在售</Badge>
+          )}
+        </div>
+        <div className="mt-3 text-2xl font-bold text-primary">¥{p.price}</div>
+      </div>
+
+      {p.config && Object.keys(p.config).length > 0 && (
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="mb-2 text-sm font-medium text-gray-600">配置</div>
+          <dl className="space-y-1 text-sm">
+            {Object.entries(p.config).map(([k, v]) => (
+              <div key={k} className="flex justify-between">
+                <dt className="text-gray-500">{k}</dt>
+                <dd className="font-medium">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+
+      {p.description && (
+        <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm leading-relaxed text-gray-700">
+          {p.description}
+        </div>
+      )}
+
+      <Link
+        href="/contact#buy"
+        className={buttonVariants({
+          size: "lg",
+          className: `w-full ${sold ? "bg-muted-foreground/40" : ""}`,
+        })}
+      >
+        {sold ? "已售出 · 联系看其他机型" : "联系购买"}
+      </Link>
+      <p className="text-center text-xs text-gray-400">
+        线下交易，支持当面验机
+      </p>
+    </section>
+  );
+}
