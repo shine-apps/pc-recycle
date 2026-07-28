@@ -9,25 +9,25 @@ importers:
   .:
     dependencies:
       '@electric-sql/pglite':
-        specifier: latest
+        specifier: ^0.5.4
         version: 0.5.4
       bcryptjs:
-        specifier: latest
+        specifier: ^3.0.3
         version: 3.0.3
       drizzle-orm:
-        specifier: latest
+        specifier: ^0.45.2
         version: 0.45.2(@electric-sql/pglite@0.5.4)(@types/pg@8.20.0)(pg@8.22.0)
       jose:
-        specifier: latest
+        specifier: ^6.2.4
         version: 6.2.4
       nanoid:
-        specifier: latest
+        specifier: ^6.0.0
         version: 6.0.0
       next:
         specifier: 16.2.12
         version: 16.2.12(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       pg:
-        specifier: latest
+        specifier: ^8.22.0
         version: 8.22.0
       react:
         specifier: 19.2.8
@@ -36,47 +36,47 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
       zod:
-        specifier: latest
+        specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
       '@tailwindcss/postcss':
-        specifier: latest
+        specifier: ^4.3.3
         version: 4.3.3
       '@types/bcryptjs':
-        specifier: latest
+        specifier: ^3.0.0
         version: 3.0.0
       '@types/node':
-        specifier: latest
+        specifier: ^26.1.1
         version: 26.1.1
       '@types/pg':
-        specifier: latest
+        specifier: ^8.20.0
         version: 8.20.0
       '@types/react':
-        specifier: latest
+        specifier: ^19.2.17
         version: 19.2.17
       '@types/react-dom':
-        specifier: latest
+        specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.17)
       dotenv:
-        specifier: latest
+        specifier: ^17.4.2
         version: 17.4.2
       drizzle-kit:
-        specifier: latest
+        specifier: ^0.31.10
         version: 0.31.10
       postcss:
-        specifier: latest
+        specifier: ^8.5.23
         version: 8.5.23
       tailwindcss:
-        specifier: latest
+        specifier: ^4.3.3
         version: 4.3.3
       tsx:
-        specifier: latest
+        specifier: ^4.23.1
         version: 4.23.1
       typescript:
         specifier: ^6.0.0
         version: 6.0.3
       vitest:
-        specifier: latest
+        specifier: ^4.1.10
         version: 4.1.10(@types/node@26.1.1)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1))
 
 packages:
