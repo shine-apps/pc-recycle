@@ -12,7 +12,9 @@ export async function GET(req: NextRequest) {
   const brandId = searchParams.get("brandId");
   const q = searchParams.get("q")?.trim();
   const sort = searchParams.get("sort") ?? "new";
-  const status = searchParams.get("status") ?? "onsale";
+  const statusParam = searchParams.get("status");
+  const status: "onsale" | "off" | "sold" =
+    statusParam === "off" ? "off" : statusParam === "sold" ? "sold" : "onsale";
 
   const db = await getDb();
   const conditions = [eq(products.status, status)];

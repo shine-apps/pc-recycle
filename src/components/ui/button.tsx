@@ -24,6 +24,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof VARIANTS | (string & {});
   size?: keyof typeof SIZES | (string & {});
+  asChild?: boolean;
 }
 
 const BASE =

@@ -9,7 +9,7 @@ export type EstimateInput = {
 export type PriceRule = {
   deviceType: string;
   brand: string | null;
-  model: string | null;
+  model?: string | null;
   basePrice: number;
   conditionFactor: Record<string, number>;
   configBonus?: Record<string, number> | null;
@@ -36,7 +36,7 @@ export function estimatePrice(
     (r) =>
       r.deviceType === input.deviceType &&
       r.brand === input.brand &&
-      r.model === input.model,
+      (r.model === input.model || (r.model == null && input.model == null)),
   );
   const rule = exact ?? rules.find(
     (r) => r.deviceType === input.deviceType && r.brand === input.brand,
