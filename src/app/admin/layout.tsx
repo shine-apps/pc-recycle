@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin", label: "概览" },
   { href: "/admin/products", label: "商品" },
   { href: "/admin/categories", label: "分类/品牌" },
+  { href: "/admin/price-rules", label: "估价规则" },
   { href: "/admin/recycle-orders", label: "回收单", badge: "pendingOrders" },
   { href: "/admin/messages", label: "留言", badge: "unreadMessages" },
   { href: "/admin/settings", label: "设置" },
