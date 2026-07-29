@@ -2,7 +2,7 @@
 node_modules
 .next
 out
-.cloudbase/
+.cloudbase
 
 # 运行时数据（不入镜像）
 .data
