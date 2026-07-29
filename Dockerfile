@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# 翔云电脑回收网站 — 生产镜像（Next.js 全栈 + pnpm）
+# 桐乡阳光回收网站 — 生产镜像（Next.js 全栈 + pnpm）
 # 用法见 docker-compose.yml
 
 FROM node:20-alpine AS base

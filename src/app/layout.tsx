@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "翔云电脑回收 · 二手电脑出售",
+  title: "桐乡阳光回收 · 二手电脑出售",
   description: "本地二手电脑与配件回收、出售，老板直连，线下交易更放心。",
 };
 

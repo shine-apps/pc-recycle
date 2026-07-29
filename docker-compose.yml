@@ -1,4 +1,4 @@
-# 翔云电脑回收网站 — 容器编排（web + postgres）
+# 桐乡阳光回收网站 — 容器编排（web + postgres）
 # 前置：在项目根目录创建 .env（不会被提交，见 .gitignore），至少设置：
 #   AUTH_SECRET=一段足够长的随机字符串（openssl rand -base64 32）
 #   ADMIN_PASSWORD=你的强密码

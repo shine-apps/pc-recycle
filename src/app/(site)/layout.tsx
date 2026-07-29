@@ -9,7 +9,7 @@ export default function SiteLayout({
     <div className="mx-auto flex min-h-screen max-w-screen-sm flex-col md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl">
       <header className="sticky top-0 z-10 border-b border-border bg-primary px-4 py-3 text-primary-foreground shadow-sm">
         <Link href="/" className="text-base font-bold">
-          翔云电脑回收
+          桐乡阳光回收
         </Link>
       </header>
       <nav className="flex gap-1 overflow-x-auto border-b border-border bg-white px-2 py-2 text-sm">

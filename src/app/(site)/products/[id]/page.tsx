@@ -21,9 +21,9 @@ export async function generateMetadata({
     .from(products)
     .where(eq(products.id, Number(id)))
     .limit(1);
-  if (!p) return { title: "商品未找到 · 翔云电脑回收" };
+  if (!p) return { title: "商品未找到 · 桐乡阳光回收" };
   return {
-    title: `${p.title} · 翔云电脑回收`,
+    title: `${p.title} · 桐乡阳光回收`,
     description: `${p.title}，${p.condition}，售价 ¥${p.price}。本地二手电脑回收出售，老板直连，线下交易更放心。`,
   };
 }

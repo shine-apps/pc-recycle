@@ -8,7 +8,7 @@ import MessageForm from "./MessageForm";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "联系老板 · 翔云电脑回收",
+  title: "联系老板 · 桐乡阳光回收",
   description: "电话直拨、微信二维码，当面验机交易更放心。",
 };
 

@@ -44,7 +44,7 @@ export default function LoginPage() {
         <CardContent className="space-y-4 p-6">
           <div className="text-center">
             <h1 className="text-xl font-bold">后台登录</h1>
-            <p className="mt-1 text-sm text-muted-foreground">翔云电脑回收管理后台</p>
+            <p className="mt-1 text-sm text-muted-foreground">桐乡阳光回收管理后台</p>
           </div>
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1">
