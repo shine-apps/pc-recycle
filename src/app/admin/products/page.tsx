@@ -199,6 +199,19 @@ export default function AdminProductsPage() {
     load();
   }
 
+  async function duplicate(id: number) {
+    if (!confirm("复制该商品为下架草稿？")) return;
+    const res = await fetch(`/api/admin/products/${id}/duplicate`, {
+      method: "POST",
+    });
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      alert(d.error || "复制失败");
+      return;
+    }
+    load();
+  }
+
   async function setStatus(p: Product, status: Product["status"]) {
     await fetch(`/api/admin/products/${p.id}`, {
       method: "PUT",
@@ -421,6 +434,12 @@ export default function AdminProductsPage() {
               </div>
               <div className="flex shrink-0 flex-col items-end gap-1">
                 <div className="flex gap-1">
+                  <button
+                    onClick={() => duplicate(p.id)}
+                    className="rounded-md px-2 py-1 text-xs text-primary hover:bg-accent"
+                  >
+                    复制
+                  </button>
                   <button
                     onClick={() => openEdit(p)}
                     className="rounded-md px-2 py-1 text-xs text-primary hover:bg-accent"

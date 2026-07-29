@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from(products)
     .where(eq(products.status, "onsale"));
 
-  const productUrls = rows.map((r) => ({
+  const productUrls = rows.map((r: { id: number }) => ({
     url: `${BASE}/products/${r.id}`,
     changeFrequency: "weekly" as const,
     priority: 0.8,

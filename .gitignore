@@ -5,6 +5,9 @@
 /.next
 /out
 
+# typescript incremental build cache
+/tsconfig.tsbuildinfo
+
 # database (runtime data; not source)
 /.data
 
@@ -28,3 +31,5 @@ Thumbs.db
 .idea
 .vscode
 *.swp
+
+/.cloudbase/

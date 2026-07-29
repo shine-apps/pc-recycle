@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin", label: "概览" },
   { href: "/admin/products", label: "商品" },
   { href: "/admin/categories", label: "分类/品牌" },
+  { href: "/admin/price-rules", label: "估价规则" },
   { href: "/admin/recycle-orders", label: "回收单", badge: "pendingOrders" },
   { href: "/admin/messages", label: "留言", badge: "unreadMessages" },
   { href: "/admin/settings", label: "设置" },
@@ -22,19 +23,15 @@ export default function AdminLayout({
   const router = useRouter();
   const [counts, setCounts] = useState({ pendingOrders: 0, unreadMessages: 0 });
 
-  // 仅后台：新单/未读角标（决策为「仅后台，不做推送」）
+  // 仅后台：新单/未读角标（使用 COUNT 接口避免全量数据拉取）
   useEffect(() => {
     let active = true;
     async function poll() {
       try {
-        const [o, m] = await Promise.all([
-          fetch("/api/admin/recycle-orders?status=pending").then((r) => r.json()),
-          fetch("/api/admin/messages").then((r) => r.json()),
-        ]);
+        const res = await fetch("/api/admin/stats");
         if (!active) return;
-        const pendingOrders = (o.items ?? []).length;
-        const unreadMessages = (m.items ?? []).filter((x: any) => !x.handled).length;
-        setCounts({ pendingOrders, unreadMessages });
+        const data = await res.json();
+        setCounts(data);
       } catch {
         /* 忽略轮询异常 */
       }

@@ -58,7 +58,7 @@ export default async function ProductDetail({
     : [undefined];
 
   const sold = p.status === "sold";
-  const images = p.images?.length ? p.images : [];
+  const images = (p.images ?? []) as string[];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -139,7 +139,7 @@ export default async function ProductDetail({
             {Object.entries(p.config).map(([k, v]) => (
               <div key={k} className="flex justify-between">
                 <dt className="text-gray-500">{k}</dt>
-                <dd className="font-medium">{v}</dd>
+                <dd className="font-medium">{String(v)}</dd>
               </div>
             ))}
           </dl>

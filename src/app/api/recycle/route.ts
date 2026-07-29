@@ -7,6 +7,7 @@ import {
   type PriceRule as Rule,
 } from "@/lib/estimate";
 import { isRateLimited } from "@/lib/rateLimit";
+import { verifyCaptcha } from "@/lib/captcha";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,12 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json().catch(() => null);
+  if (!(await verifyCaptcha(body?.captchaToken, body?.captchaAnswer))) {
+    return NextResponse.json(
+      { error: "验证码错误或已失效，请重试" },
+      { status: 400 },
+    );
+  }
   const parsed = recycleOrderInputSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: "请填写必填项" }, { status: 400 });

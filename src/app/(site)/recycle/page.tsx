@@ -37,6 +37,11 @@ export default function RecyclePage() {
   const [expectPrice, setExpectPrice] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [contactWechat, setContactWechat] = useState("");
+  const [captcha, setCaptcha] = useState<{ question: string; token: string }>({
+    question: "",
+    token: "",
+  });
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -47,10 +52,21 @@ export default function RecyclePage() {
     orderId: number;
   }>(null);
 
+  async function loadCaptcha() {
+    try {
+      const d = await fetch("/api/captcha").then((r) => r.json());
+      setCaptcha({ question: d.question ?? "", token: d.token ?? "" });
+      setCaptchaAnswer("");
+    } catch {
+      /* 拉取失败由后端二次校验兜底 */
+    }
+  }
+
   useEffect(() => {
     fetch("/api/categories")
       .then((r) => r.json())
       .then((d) => setBrands(d.brands ?? []));
+    loadCaptcha();
   }, []);
 
   async function onFiles(e: React.ChangeEvent<HTMLInputElement>) {
@@ -97,6 +113,8 @@ export default function RecyclePage() {
       expectPrice: expectPrice ? Number(expectPrice) : undefined,
       contactPhone: contactPhone.trim(),
       contactWechat: contactWechat.trim() || undefined,
+      captchaToken: captcha.token,
+      captchaAnswer,
     };
 
     setSubmitting(true);
@@ -109,10 +127,12 @@ export default function RecyclePage() {
     if (!res.ok) {
       const d = await res.json().catch(() => ({}));
       setError(d.error || "提交失败");
+      loadCaptcha();
       return;
     }
     const d = await res.json();
     setResult({ ...d.estimate, orderId: d.orderId });
+    loadCaptcha();
   }
 
   if (result) {
@@ -152,6 +172,7 @@ export default function RecyclePage() {
             setResult(null);
             setImages([]);
             setConfig([{ k: "", v: "" }]);
+            loadCaptcha();
           }}
           className="block w-full text-center text-sm text-primary underline"
         >
@@ -301,6 +322,21 @@ export default function RecyclePage() {
             value={contactWechat}
             onChange={(e) => setContactWechat(e.target.value)}
             placeholder="微信号"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <Label>
+            验证码 <span className="text-destructive">*</span>
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            {captcha.question || "正在加载…"}
+          </p>
+          <Input
+            value={captchaAnswer}
+            onChange={(e) => setCaptchaAnswer(e.target.value)}
+            placeholder="请输入计算结果"
+            inputMode="numeric"
           />
         </div>
 

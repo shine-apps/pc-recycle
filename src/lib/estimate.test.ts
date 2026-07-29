@@ -13,6 +13,7 @@ const rules: PriceRule[] = [
   {
     deviceType: "笔记本",
     brand: "苹果",
+    model: null,
     basePrice: 3500,
     conditionFactor: { "95新": 0.8 },
   },
