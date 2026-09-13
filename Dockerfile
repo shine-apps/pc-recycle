@@ -9,7 +9,8 @@ RUN corepack enable && corepack prepare pnpm@11.5.1 --activate
 # 1) 依赖安装（利用层缓存）
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+# pnpm 11 的构建脚本审批策略（allowBuilds）位于 pnpm-workspace.yaml，必须一并拷入，否则 CI 环境下安装会报 ERR_PNPM_IGNORED_BUILDS
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 # 2) 构建
