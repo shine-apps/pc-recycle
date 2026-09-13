@@ -134,7 +134,7 @@ docker compose up -d
 ```
 
 - 首次启动会自动：用 `drizzle-kit push` 把表结构推送到 PostgreSQL（幂等），再启动 Next.js。
-- 访问 http://localhost:3000 ；后台 /admin 。
+- 访问 http://localhost:4444 ；后台 /admin 。
 - 上传的图片持久化在 `uploads` 卷（`/app/public/uploads`），容器重建不丢失；数据库持久化在 `pgdata` 卷。
 
 ### 停止 / 重建

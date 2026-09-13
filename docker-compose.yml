@@ -3,7 +3,7 @@
 #   AUTH_SECRET=一段足够长的随机字符串（openssl rand -base64 32）
 #   ADMIN_PASSWORD=你的强密码
 # 然后执行：docker compose up -d
-# 访问 http://localhost:3000 ；后台 /admin
+# 访问 http://localhost:4444 ；后台 /admin
 
 services:
   postgres:
@@ -34,14 +34,14 @@ services:
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me}
       NEXT_TELEMETRY_DISABLED: "1"
-      PORT: "3000"
+      PORT: "4444"
     volumes:
       # 上传图片需持久化，避免容器重建后丢失
       - uploads:/app/public/uploads
     ports:
-      - "3000:3000"
+      - "4444:4444"
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000 >/dev/null || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4444 >/dev/null || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
