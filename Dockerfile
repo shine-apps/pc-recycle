@@ -32,6 +32,6 @@ COPY --from=builder /app/next.config.mjs ./next.config.mjs
 COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=builder /app/src ./src
 RUN mkdir -p /app/public/uploads
-EXPOSE 3000
+EXPOSE 4444
 # 启动前先用 drizzle-kit 把表结构推到 PostgreSQL（幂等），再启动服务
 CMD ["sh", "-c", "pnpm db:push && pnpm start"]
