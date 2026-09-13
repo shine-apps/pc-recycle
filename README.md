@@ -29,7 +29,7 @@
 
 ## 环境要求
 
-- Node.js **22**
+- Node.js **24**
 - pnpm（仓库已通过 `packageManager` 字段锁定版本，CI 自动安装对应版本）
 
 ## 快速开始（本地开发）
@@ -144,7 +144,7 @@ docker compose down              # 停止并移除容器（数据卷保留）
 docker compose up -d --build     # 代码改动后重新构建镜像
 ```
 
-> 镜像基于 `node:20-alpine` + pnpm 多阶段构建；`.dockerignore` 已排除 `node_modules`、`.next`、`public/uploads`、`.env` 等，避免把密钥或冗余产物打进镜像。
+> 镜像基于 `node:24-alpine` + pnpm 多阶段构建；`.dockerignore` 已排除 `node_modules`、`.next`、`public/uploads`、`.env` 等，避免把密钥或冗余产物打进镜像。
 
 ## 持续集成
 

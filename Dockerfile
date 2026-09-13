@@ -2,7 +2,7 @@
 # 桐乡阳光回收网站 — 生产镜像（Next.js 全栈 + pnpm）
 # 用法见 docker-compose.yml
 
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN corepack enable && corepack prepare pnpm@11.5.1 --activate
 
