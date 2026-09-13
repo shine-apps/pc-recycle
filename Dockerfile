@@ -18,6 +18,8 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# 仓库可能没有 public 目录（git 不跟踪空目录），预创建以保证后续 COPY 不因目录缺失而失败
+RUN mkdir -p public
 RUN pnpm build
 
 # 3) 运行
