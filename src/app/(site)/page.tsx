@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import ShareFallbackImage from "@/components/share/ShareFallbackImage";
+
+export const metadata: Metadata = {
+  title: "桐乡阳光回收 · 二手电脑回收出售，老板直连",
+  description:
+    "笔记本、台式机、配件全收；明码标价的二手好物在线挑选，在线估价秒出区间，老板直连，线下当面验机交易更放心。",
+  alternates: { canonical: "/" },
+};
 
 const NAV = [
   { href: "/products", label: "逛逛在售", desc: "明码标价的二手好物" },
@@ -37,6 +45,8 @@ export default function Home() {
       <p className="text-xs text-muted-foreground">
         全栈已贯通：Next.js + Drizzle + PostgreSQL/PGlite。商品、估价、联系购买均已可用。
       </p>
+
+      <ShareFallbackImage />
     </section>
   );
 }

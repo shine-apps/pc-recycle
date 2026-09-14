@@ -6,8 +6,18 @@ import { getDb } from "@/db/client";
 import { products, categories, brands } from "@/db/schema";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import ShareButton from "@/components/share/ShareButton";
 
 export const dynamic = "force-dynamic";
+
+/** 挑选微信分享缩略图：跳过 data:URL，优先 JPG/PNG（微信不支持 WebP/GIF） */
+function pickShareImage(images: string[]): string | undefined {
+  const publicImages = images.filter((u) => !u.startsWith("data:"));
+  return (
+    publicImages.find((u) => /\.(jpe?g|png)(\?.*)?$/i.test(u)) ??
+    publicImages[0]
+  );
+}
 
 export async function generateMetadata({
   params,
@@ -22,9 +32,20 @@ export async function generateMetadata({
     .where(eq(products.id, Number(id)))
     .limit(1);
   if (!p) return { title: "商品未找到 · 桐乡阳光回收" };
+  const description = `${p.title}，${p.condition}，售价 ¥${p.price}。本地二手电脑回收出售，老板直连，线下交易更放心。`;
+  const shareImage = pickShareImage(((p.images ?? []) as string[]));
   return {
     title: `${p.title} · 桐乡阳光回收`,
-    description: `${p.title}，${p.condition}，售价 ¥${p.price}。本地二手电脑回收出售，老板直连，线下交易更放心。`,
+    description,
+    alternates: { canonical: `/products/${p.id}` },
+    openGraph: {
+      type: "website",
+      locale: "zh_CN",
+      siteName: "桐乡阳光回收",
+      title: `${p.title} ¥${p.price} · 桐乡阳光回收`,
+      description,
+      images: [{ url: shareImage ?? "/share-logo.png" }],
+    },
   };
 }
 
@@ -148,15 +169,22 @@ export default async function ProductDetail({
         </div>
       )}
 
-      <Link
-        href="/contact#buy"
-        className={buttonVariants({
-          size: "lg",
-          className: `w-full ${sold ? "bg-muted-foreground/40" : ""}`,
-        })}
-      >
-        {sold ? "已售出 · 联系看其他机型" : "联系购买"}
-      </Link>
+      <div className="flex gap-2">
+        <Link
+          href="/contact#buy"
+          className={buttonVariants({
+            size: "lg",
+            className: `flex-1 ${sold ? "bg-muted-foreground/40" : ""}`,
+          })}
+        >
+          {sold ? "已售出 · 联系看其他机型" : "联系购买"}
+        </Link>
+        <ShareButton
+          variant="button"
+          title={`${p.title} ¥${p.price} · 桐乡阳光回收`}
+          text={`${p.title}，${p.condition}，售价 ¥${p.price}。本地二手电脑，老板直连，线下当面验机。`}
+        />
+      </div>
       <p className="text-center text-xs text-gray-400">
         线下交易，支持当面验机
       </p>

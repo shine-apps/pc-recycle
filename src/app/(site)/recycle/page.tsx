@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import ShareFallbackImage from "@/components/share/ShareFallbackImage";
 
 const DEVICE_TYPES = [
   "笔记本",
@@ -345,6 +346,8 @@ export default function RecyclePage() {
           {submitting ? "提交中…" : "提交估价"}
         </Button>
       </form>
+
+      <ShareFallbackImage />
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
+import ShareButton from "@/components/share/ShareButton";
 
 export default function SiteLayout({
   children,
@@ -30,6 +31,7 @@ export default function SiteLayout({
       <footer className="border-t border-border px-4 py-4 text-center text-xs text-muted-foreground">
         二手电脑回收 · 出售 · 老板直连
       </footer>
+      <ShareButton variant="fab" />
     </div>
   );
 }

@@ -20,6 +20,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # 仓库可能没有 public 目录（git 不跟踪空目录），预创建以保证后续 COPY 不因目录缺失而失败
 RUN mkdir -p public
+# 站点对外地址（构建时内联，用于微信分享卡片绝对 URL），由 compose build.args 传入
+ARG NEXT_PUBLIC_SITE_URL
 RUN pnpm build
 
 # 3) 运行

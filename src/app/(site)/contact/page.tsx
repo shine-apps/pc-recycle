@@ -4,6 +4,7 @@ import { getDb } from "@/db/client";
 import { shopSettings } from "@/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import MessageForm from "./MessageForm";
+import ShareFallbackImage from "@/components/share/ShareFallbackImage";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +82,8 @@ export default async function ContactPage() {
       </Card>
 
       <MessageForm />
+
+      <ShareFallbackImage />
     </section>
   );
 }

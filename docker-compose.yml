@@ -2,7 +2,9 @@
 # 前置：在项目根目录创建 .env（不会被提交，见 .gitignore），至少设置：
 #   AUTH_SECRET=一段足够长的随机字符串（openssl rand -base64 32）
 #   ADMIN_PASSWORD=你的强密码
-# 然后执行：docker compose up -d
+# 可选（建议）：
+#   NEXT_PUBLIC_SITE_URL=https://你的正式域名  # 微信分享卡片 og:image 绝对地址，构建时注入
+# 然后执行：docker compose up -d --build
 # 访问 http://localhost:4444 ；后台 /admin
 
 services:
@@ -22,7 +24,10 @@ services:
       retries: 10
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
     restart: unless-stopped
     depends_on:
       postgres:
