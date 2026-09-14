@@ -59,13 +59,15 @@ export default async function ProductDetail({
 
   const sold = p.status === "sold";
   const images = (p.images ?? []) as string[];
+  const FALLBACK_IMAGE = "/product-placeholder.svg";
+  const displayImages = images.length > 0 ? images : [FALLBACK_IMAGE];
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: p.title,
     description: `${p.title}，${p.condition}，售价 ¥${p.price}。`,
-    image: images,
+    image: displayImages,
     offers: {
       "@type": "Offer",
       price: p.price,
@@ -87,33 +89,27 @@ export default async function ProductDetail({
         ← 返回列表
       </Link>
 
-      {images.length > 0 ? (
-        <div className="grid grid-cols-1 gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={images[0]}
-            alt={p.title}
-            className="w-full rounded-xl border border-gray-200 object-cover"
-          />
-          {images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {images.slice(1).map((u, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={u}
-                  alt=""
-                  className="h-16 w-full rounded-lg border border-gray-200 object-cover"
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="flex h-48 items-center justify-center rounded-xl bg-gray-100 text-sm text-gray-400">
-          暂无图片
-        </div>
-      )}
+      <div className="grid grid-cols-1 gap-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={displayImages[0]}
+          alt={p.title}
+          className="w-full rounded-xl border border-gray-200 object-cover"
+        />
+        {displayImages.length > 1 && (
+          <div className="grid grid-cols-4 gap-2">
+            {displayImages.slice(1).map((u, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={u}
+                alt=""
+                className="h-16 w-full rounded-lg border border-gray-200 object-cover"
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       <div>
         <h1 className="text-xl font-semibold">{p.title}</h1>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <!-- laptop base -->
+  <path d="M180 540 L620 540 L660 600 L140 600 Z" fill="#64748b"/>
+  <rect x="360" y="600" width="80" height="10" rx="2" fill="#475569"/>
+  <!-- laptop screen -->
+  <rect x="200" y="200" width="400" height="340" rx="16" fill="#94a3b8"/>
+  <rect x="216" y="216" width="368" height="308" rx="8" fill="url(#screen)"/>
+  <!-- recycle symbol on screen -->
+  <g transform="translate(400 370)" fill="none" stroke="#38bdf8" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 -90 L78 45 L-78 45 Z"/>
+    <path d="M0 -90 L30 -45" stroke="#38bdf8" stroke-width="22" stroke-linecap="round"/>
+    <path d="M78 45 L24 45" stroke="#38bdf8" stroke-width="22" stroke-linecap="round"/>
+    <path d="M-78 45 L-24 3" stroke="#38bdf8" stroke-width="22" stroke-linecap="round"/>
+    <!-- arrow heads -->
+    <path d="M0 -90 L12 -62 L-12 -62 Z" fill="#38bdf8" stroke="none"/>
+    <path d="M78 45 L48 55 L58 30 Z" fill="#38bdf8" stroke="none"/>
+    <path d="M-78 45 L-58 30 L-48 55 Z" fill="#38bdf8" stroke="none"/>
+  </g>
+  <!-- small decorative dots -->
+  <circle cx="120" cy="120" r="4" fill="#cbd5e1"/>
+  <circle cx="680" cy="160" r="6" fill="#cbd5e1"/>
+  <circle cx="700" cy="680" r="5" fill="#cbd5e1"/>
+  <circle cx="100" cy="660" r="7" fill="#cbd5e1"/>
+  <!-- text -->
+  <text x="400" y="690" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="44" font-weight="700" fill="#334155" letter-spacing="4">阳光二手电脑买卖</text>
+</svg>
