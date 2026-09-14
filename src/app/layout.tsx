@@ -3,7 +3,8 @@ import "./globals.css";
 
 // 生产环境通过 NEXT_PUBLIC_SITE_URL（构建时注入）声明站点对外地址，
 // 用于把 /share-logo.png 等相对路径补全为微信抓取所需的绝对 URL。
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// 用 || 而非 ??：CI 未配置该变量时是空字符串，new URL("") 会抛 Invalid URL。
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
