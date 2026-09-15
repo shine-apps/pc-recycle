@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 
-export async function middleware(req: NextRequest) {
+// Next.js 16 起 middleware 文件约定更名为 proxy（原 middleware.ts 已弃用）
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isAdminPage =
